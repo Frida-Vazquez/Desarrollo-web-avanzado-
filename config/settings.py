@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -120,7 +120,6 @@ STATIC_URL = 'static/'
 
 from django.urls import reverse_lazy
 LOGIN_URL = reverse_lazy('login')
-LOGIN_REDIRECT_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('inicio')
 
-LOGOUT_URL = reverse_lazy('login')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
