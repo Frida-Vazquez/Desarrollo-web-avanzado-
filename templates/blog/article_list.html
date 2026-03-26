@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Artículos</h1>
+
+    {% if perms.blog.add_article %}
+        <a href="{% url 'article_create' %}" class="btn btn-primary mb-4">Nuevo artículo</a>
+    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Contenido</th>
+                <th>Publicado</th>
+                <th>Destacado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.author.username }}</td>
+                    <td>{{ article.content|truncatechars:40 }}</td>
+                    <td>
+                        {% if article.published %}
+                            Sí
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if article.featured %}
+                            Sí
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if perms.blog.change_article %}
+                            <a href="{% url 'article_edit' article.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                        {% endif %}
+
+                        {% if perms.blog.delete_article %}
+                            <a href="{% url 'article_delete' article.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        {% endif %}
+
+                        {% if perms.blog.publish_article and not article.published %}
+                            <a href="{% url 'article_publish' article.pk %}" class="btn btn-success btn-sm">Publicar</a>
+                        {% endif %}
+
+                        {% if perms.blog.feature_article and not article.featured %}
+                            <a href="{% url 'article_feature' article.pk %}" class="btn btn-info btn-sm">Destacar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">No hay artículos.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
